@@ -1219,7 +1219,15 @@ def export_to_ndds_file(
             if trans is None: 
                 continue
 
-        quaternion_xyzw = visii.inverse(cam_world_quaternion) * visii.quat(trans.get_local_to_world_matrix())
+        # Avoid the effect of scale on rotation
+        scale = visii.transform.get(f'{obj_name}').get_scale()
+        obj_locat_to_world_mtx = visii.transform.get(f"{obj_name}").get_local_to_world_matrix()
+        scale_mtx = visii.mat4(scale[0], 0, 0, 0, 0, scale[1], 0, 0, 0, 0, scale[2], 0, 0, 0, 0, 1)
+        obj_world_rot = visii.transpose(visii.inverse(scale_mtx)*visii.transpose(obj_locat_to_world_mtx))
+        obj_world_quat = visii.quat(obj_world_rot)
+        quaternion_xyzw = visii.inverse(cam_world_quaternion) * obj_world_quat
+
+        # quaternion_xyzw = visii.inverse(cam_world_quaternion) * visii.quat(trans.get_local_to_world_matrix())
 
         object_world = visii.vec4(
             trans.get_world_position()[0],
@@ -1307,11 +1315,17 @@ def export_to_ndds_file(
                 quaternion_xyzw[2],
                 quaternion_xyzw[3],
             ],
+            # 'quaternion_xyzw_worldframe':[
+            #     visii.quat(trans.get_local_to_world_matrix())[0],
+            #     visii.quat(trans.get_local_to_world_matrix())[1],
+            #     visii.quat(trans.get_local_to_world_matrix())[2],
+            #     visii.quat(trans.get_local_to_world_matrix())[3],
+            # ],
             'quaternion_xyzw_worldframe':[
-                visii.quat(trans.get_local_to_world_matrix())[0],
-                visii.quat(trans.get_local_to_world_matrix())[1],
-                visii.quat(trans.get_local_to_world_matrix())[2],
-                visii.quat(trans.get_local_to_world_matrix())[3],
+                obj_world_quat[0],
+                obj_world_quat[1],
+                obj_world_quat[2],
+                obj_world_quat[3],
             ],
             'local_to_world_matrix':trans_matrix_export,
             'projected_cuboid':projected_keypoints,

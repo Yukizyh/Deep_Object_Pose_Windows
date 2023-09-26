@@ -15,6 +15,8 @@ import subprocess
 from math import acos
 from math import sqrt
 from math import pi
+import sys
+
 
 from utils import *
 
@@ -22,7 +24,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument(
     '--spp',
-    default=800,
+    default=100,
     type=int,
     help = "number of sample per pixel, higher the more costly"
 )
@@ -46,7 +48,7 @@ parser.add_argument(
 )
 parser.add_argument(
     '--objs_folder',
-    default='models/',
+    default='D:/Desktop/1/individual_project/Deep_Object_Pose_Windows/scripts/nvisii_data_gen/models/',
     help = "object to load folder"
 )
 parser.add_argument(
@@ -64,7 +66,7 @@ parser.add_argument(
 
 parser.add_argument(
     '--skyboxes_folder',
-    default='dome_hdri_haven/',
+    default='D:/Desktop/1/individual_project/Deep_Object_Pose_Windows/scripts/nvisii_data_gen/dome_hdri_haven/',
     help = "dome light hdr"
 )
 parser.add_argument(
@@ -75,17 +77,17 @@ parser.add_argument(
 )
 parser.add_argument(
     '--nb_distractors',
-    default=1,
+    default=0,
     help = "how many objects"
 )
 parser.add_argument(
     '--nb_frames',
-    default=2000,
+    default=10,
     help = "how many frames to save"
 )
 parser.add_argument(
     '--skip_frame',
-    default=100,
+    default=240,
     type=int,
     help = "how many frames to skip"
 )
@@ -97,7 +99,7 @@ parser.add_argument(
 )
 parser.add_argument(
     '--outf',
-    default='output_example/',
+    default='D:/Desktop/1/individual_project/Deep_Object_Pose_Windows/scripts/nvisii_data_gen/output_example/',
     help = "output filename inside output/"
 )
 parser.add_argument('--seed',
@@ -202,7 +204,7 @@ else:
     camera = visii.entity.create(
         name = "camera",
         transform = visii.transform.create("camera"),
-        camera = visii.camera.create_perspective_from_fov(
+        camera = visii.camera.create_from_fov(
             name = "camera",
             field_of_view = 0.785398,
             aspect = float(opt.width)/float(opt.height)

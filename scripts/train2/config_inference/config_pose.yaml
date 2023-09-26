@@ -13,34 +13,52 @@ weights: {
     # "soup":"package://dope/weights/soup_60.pth",
     # 'peg_hole': "package://dope/weights/peg_box_40.pth",
     # 'cube_red': "package://dope/weights/red_40.pth",
-    #"sugar":"package://dope/weights/sugar_60.pth"
+    # "sugar":"package://dope/weights/sugar_60.pth"
     # "bleach":"package://dope/weights/bleach_28_dr.pth"
     # 'pudding':"weights_dope/pudding.pth"
     # 'pudding':"weights_dope/dope_network/net_epoch_60.pth"
-    'alphabet_soup':"weights_dope/resnet_simple/alphabe_soup.pth"
+    # 'alphabet_soup':"weights_dope/resnet_simple/alphabe_soup.pth"
+    # "Ketchup":"D:/Desktop/1/individual_project/Deep_Object_Pose_Windows/scripts/train2/weights_dope/Ketchup.pth",
+    # "cracker":"weights_dope/cracker_60.pth",
+    # "gelatin":"weights_dope/gelatin_60.pth",
+    # "meat":"weights_dope/meat_20.pth",
+    # "mustard":"weights_dope/mustard_60.pth",
+    # "soup":"weights_dope/soup_60.pth",
+    # 'peg_hole': "weights_dope/peg_box_40.pth",
+    # "sugar":"weights_dope/sugar_60.pth",
+    # "bleach":"weights_dope/bleach_28_dr.pth",
+    # 'alphabet_soup':"weights_dope/resnet_simple/alphabe_soup.pth",
+    "macaroni_and_cheese":"D:/Desktop/1/individual_project/Deep_Object_Pose_Windows/scripts/train2/weights_dope/MacaroniAndCheese.pth",
+    # "butter":"train2/weights_dope/Butter.pth"
 }
 
 # Type of neural network architecture
 architectures: {
-    'pudding':"dope",
-    'alphabet_soup':'resnet_simple',   
+    # 'pudding':"dope",
+    # 'alphabet_soup':'dope',
+    # 'Ketchup':'dope',
+    # 'alphabet_soup':'resnet_simple',  
+    'macaroni_and_cheese':"dope",
+    # 'butter':"dope",
 }
 
 
 # Cuboid dimension in cm x,y,z
 dimensions: {
-    "cracker": [16.403600692749023,21.343700408935547,7.179999828338623],
-    "gelatin": [8.918299674987793, 7.311500072479248, 2.9983000755310059],
-    "meat": [10.164673805236816,8.3542995452880859,5.7600898742675781],
-    "mustard": [9.6024150848388672,19.130100250244141,5.824894905090332],
-    "soup": [6.7659378051757813,10.185500144958496,6.771425724029541],
-    "sugar": [9.267730712890625,17.625339508056641,4.5134143829345703],
-    "bleach": [10.267730712890625,26.625339508056641,7.5134143829345703],
-    "peg_hole": [12.6,3.9,12.6],
-    'cube_red':[5,5,5],
-    'pudding':[49.47199821472168, 29.923000335693359, 83.498001098632812],
-    'alphabet_soup':[8.3555002212524414, 7.1121001243591309, 6.6055998802185059]
-
+    # "cracker": [16.403600692749023,21.343700408935547,7.179999828338623],
+    # "gelatin": [8.918299674987793, 7.311500072479248, 2.9983000755310059],
+    # "meat": [10.164673805236816,8.3542995452880859,5.7600898742675781],
+    # "mustard": [9.6024150848388672,19.130100250244141,5.824894905090332],
+    # "soup": [6.7659378051757813,10.185500144958496,6.771425724029541],
+    # "sugar": [9.267730712890625,17.625339508056641,4.5134143829345703],
+    # "bleach": [10.267730712890625,26.625339508056641,7.5134143829345703],
+    # "peg_hole": [12.6,3.9,12.6],
+    # 'cube_red':[5,5,5],
+    # 'pudding':[49.47199821472168, 29.923000335693359, 83.498001098632812],
+    # 'alphabet_soup':[8.3555002212524414, 7.1121001243591309, 6.6055998802185059],
+    # "Ketchup" : [ 14.860799789428711, 4.3368000984191895, 6.4513998031616211 ],
+    "macaroni_and_cheese":[ 16.625600814819336, 4.0180997848510742, 12.350899696350098 ],
+    # "butter":[81.776772, 64.240250, 60.322884], 
 }
 
 class_ids: {
@@ -55,6 +73,9 @@ class_ids: {
     "cube_red": 9,
     'pudding': 10,
     'alphabet_soup': 12,
+    "Ketchup": 13,
+    "macaroni_and_cheese": 14,
+    "butter":15,
 }
 
 draw_colors: {
@@ -68,14 +89,25 @@ draw_colors: {
     "peg_hole": [232, 222, 12],  # yellow
     "cube_red": [255,0,0],
     "pudding": [255,0,0],
+    "macaroni_and_cheese": [255,0,0],
+    "butter": [0,255,255],
+    'Ketchup': [232, 222, 12], # yellow
 }
 
 # optional: provide a transform that is applied to the pose returned by DOPE
 model_transforms: {
-#    "cracker": [[ 0,  0,  1,  0],
-#                [ 0, -1,  0,  0],
-#                [ 1,  0,  0,  0],
-#                [ 0,  0,  0,  1]]
+    # "cracker": [[ 0,  0,  1,  0],
+    #             [ 0, -1,  0,  0],
+    #             [ 1,  0,  0,  0],
+    #             [ 0,  0,  0,  1]]
+    "macaroni_and_cheese": [[ 0,  -1,  0,  0],
+                [ 0, 0,  -1,  0],
+                [ 1,  0,  0,  0],
+                [ 0,  0,  0,  1]]
+    # "Ketchup": [[ 0,  0,  1,  0],
+    #                          [ 0, -1,  0,  0],
+    #                          [ 1,  0,  0,  0],
+    #                          [ 0,  0,  0,  1]]
 }
 
 # optional: if you provide a mesh of the object here, a mesh marker will be
@@ -89,6 +121,8 @@ meshes: {
 #    "soup":    "file://path/to/Dataset_Utilities/nvdu/data/ycb/aligned_cm/005_tomato_soup_can/google_16k/textured.obj",
 #    "sugar":   "file://path/to/Dataset_Utilities/nvdu/data/ycb/aligned_cm/004_sugar_box/google_16k/textured.obj",
 #    "bleach":  "file://path/to/Dataset_Utilities/nvdu/data/ycb/aligned_cm/021_bleach_cleanser/google_16k/textured.obj",
+     "macaroni_and_cheese": "file:://D:Desktop/1/individual_project/dope/scripts/nvisii_data_gen/models/MacaroniAndCheese/google_16k/textured.obj",
+     "butter": "file:://D:Desktop/1/individual_project/dope/scripts/nvisii_data_gen/models/Butter/google_16k/textured.obj",
 }
 
 # optional: If the specified meshes are not in meters, provide a scale here (e.g. if the mesh is in centimeters, scale should be 0.01). default scale: 1.0.
@@ -100,6 +134,9 @@ mesh_scales: {
     "soup":    0.01,
     "sugar":   0.01,
     "bleach":  0.01,
+    "macaroni_and_cheese": 0.01, # my code
+    "butter": 0.01,
+    'Ketchup': 0.01,
 }
 
 # Config params for DOPE

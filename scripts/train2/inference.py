@@ -17,13 +17,16 @@ from PIL import Image
 from PIL import ImageDraw
 
 import sys 
-sys.path.append("inference")
+# sys.path.append("inference")
+sys.path.append("D:/Desktop/1/individual_project/Deep_Object_Pose_Windows/scripts/train2/inference")
 from cuboid import Cuboid3d
 from cuboid_pnp_solver import CuboidPNPSolver
 from detector import ModelData, ObjectDetector
 
 import simplejson as json
 import copy
+
+import quaternion
 
 class Draw(object):
     """Drawing helper class to visualize the neural network output"""
@@ -98,7 +101,7 @@ class DopeNode(object):
         self.draw_colors = {}
         self.dimensions = {}
         self.class_ids = {}
-        self.model_transforms = {}
+        self.model_transforms = config['model_transforms']
         self.meshes = {}
         self.mesh_scales = {}
 
@@ -227,12 +230,20 @@ class DopeNode(object):
                 CONVERT_SCALE_CM_TO_METERS = 100
                 loc = [l / CONVERT_SCALE_CM_TO_METERS for l in loc]
 
+                # Transform orientation in Windows system
+                rotation_mtx = np.array(self.model_transforms[m])[:3,:3]
+                model_trans_quat = quaternion.from_rotation_matrix(rotation_mtx)
+                rotated_ori = quaternion.quaternion(ori[-1], ori[0],ori[1], ori[2]) * model_trans_quat
+                model_trans_ori = np.array([rotated_ori.x, rotated_ori.y, rotated_ori.z, rotated_ori.w])
+
                 print(loc)
+                print(model_trans_ori)
 
                 dict_out['objects'].append({
                     'class':m,
                     'location':np.array(loc).tolist(),
-                    'quaternion_xyzw':np.array(ori).tolist(),
+                    # 'quaternion_xyzw':np.array(ori).tolist(),
+                    'quaternion_xyzw':np.array(model_trans_ori).tolist(),
                     'projected_cuboid':np.array(result['projected_points']).tolist(),
                 })
                 # print( dict_out )
@@ -246,6 +257,7 @@ class DopeNode(object):
                 # dims = rotate_vector(vector=self.dimensions[m], quaternion=self.model_transforms[m])
                 # dims = np.absolute(dims)
                 # dims = tuple(dims)
+                
 
                 # Draw the cube
                 if None not in result['projected_points']:
@@ -283,23 +295,24 @@ if __name__ == "__main__":
     parser.add_argument("--pause",
         default=0,
         help='pause between images')
-    parser.add_argument("--showbelief",
+    parser.add_argument("--showbelief", 
         action="store_true",
         help='show the belief maps')
     parser.add_argument("--dontshow",
         action="store_true",
         help='headless mode')
     parser.add_argument("--outf",
-        default="out_experiment",
+        default="D:/Desktop/1/individual_project/Deep_Object_Pose_Windows/out_experiment",
         help='where to store the output')
     parser.add_argument("--data",
-        default=None,
+        # default=None,
+        default = "D:\\Desktop\\1\\individual_project\\Deep_Object_Pose_Windows\\output\\dataset\\000\\",
         help='folder for data images to load, *.png, *.jpeg, *jpg')
     parser.add_argument("--config",
-        default="config_inference/config_pose.yaml",
+        default="D:/Desktop/1/individual_project/Deep_Object_Pose_Windows/scripts/train2/config_inference/config_pose.yaml",
         help='folder for the inference configs')
     parser.add_argument("--camera",
-        default="config_inference/camera_info.yaml",
+        default="D:/Desktop/1/individual_project/Deep_Object_Pose_Windows/scripts/train2/config_inference/camera_info.yaml",
         help='camera info file')
     parser.add_argument('--realsense',
         action='store_true',
